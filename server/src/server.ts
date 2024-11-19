@@ -3,11 +3,12 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import routes from './routes/index';
 import dotenv from 'dotenv';
+import errorMiddleware from './middleware/errorMiddleware';
 
 dotenv.config();
 
 const app: Application = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // Middleware pour parser les requêtes
 app.use(bodyParser.json());
@@ -25,6 +26,7 @@ mongoose.connect(process.env.MONGODB || '', {
 
 // Routes
 app.use('/api', routes);
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
